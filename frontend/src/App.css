@@ -1,0 +1,10 @@
+.base-layout {
+  min-height: 100vh;
+  color: #24354f;
+  background-color: #f7f8fc;
+}
+
+.layout-header {
+  position: sticky;
+  z-index: 100;
+}

@@ -1,0 +1,45 @@
+version: "3.9"
+name: "opswat-coding-challenge"
+services:
+  backend:
+    image: backend
+    container_name: backend
+    environment:
+      - API_PORT=${API_PORT}
+      - WEB_PORT=${WEB_PORT}
+    build:
+      context: ./backend
+      dockerfile: .dockerfile
+    ports:
+      - ${API_PORT}:8000
+    networks:
+      - my-network
+
+  frontend:
+    image: frontend
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: .dockerfile
+    ports:
+      - ${WEB_PORT}:3000
+    networks:
+      - my-network
+      
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    ports:
+      - ${POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+networks:    
+  my-network:
+    driver: bridge
